@@ -14,7 +14,7 @@ uncapturable.app/Contents/MacOS/uncapturable-debug:
 	mkdir -p uncapturable.app/Contents/MacOS uncapturable.app/Contents/Resources
 	swiftc -Onone -g -suppress-warnings -incremental \
 		-j $(CPUS) \
-		-o uncapturable.app/Contents/MacOS/uncapturable \
+		-o uncapturable.app/Contents/MacOS/uncapturable-debug \
 		$(SWIFT_SOURCES)
 
 # ---- Release (optimized) build ----

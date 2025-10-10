@@ -218,8 +218,9 @@ class StateService {
             }
         }
         
-        // Treat as search query - use SearchEngineManager for unified handling
-        let searchURL = SearchEngineManager.shared.searchURL(for: trimmed)
+        // Treat as search query - always use Google search
+        let encodedQuery = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
+        let searchURL = "https://www.google.com/search?q=" + encodedQuery
         return URL(string: searchURL)
     }
     
@@ -726,4 +727,65 @@ private struct SavedHistoryItem: Codable {
     let visitDate: Date
     let visitCount: Int
     let faviconData: String?
+}
+
+// Data models for browser state management
+
+struct HistoryItem: Identifiable {
+    let id = UUID()
+    let title: String
+    let url: URL
+    let visitDate: Date
+    let visitCount: Int
+    let faviconData: String?
+
+    init(title: String, url: URL, visitDate: Date, visitCount: Int = 1, faviconData: String? = nil) {
+        self.title = title
+        self.url = url
+        self.visitDate = visitDate
+        self.visitCount = visitCount
+        self.faviconData = faviconData
+    }
+}
+
+struct CookieItem: Identifiable {
+    let id = UUID()
+    let name: String
+    let value: String
+    let domain: String
+    let path: String
+    let expiresDate: Date?
+}
+
+struct WebStorageItem: Identifiable {
+    let id = UUID()
+    let domain: String
+    let hasLocalStorage: Bool
+    let hasIndexedDB: Bool
+    let lastModified: Date
+    let estimatedSize: Int64 // Size in bytes
+
+    init(domain: String, hasLocalStorage: Bool, hasIndexedDB: Bool, lastModified: Date = Date(), estimatedSize: Int64 = 0) {
+        self.domain = domain
+        self.hasLocalStorage = hasLocalStorage
+        self.hasIndexedDB = hasIndexedDB
+        self.lastModified = lastModified
+        self.estimatedSize = estimatedSize
+    }
+}
+
+struct CacheInfo {
+    let diskCacheSize: Int64 // Size in bytes
+    let memoryCacheSize: Int64 // Size in bytes
+    let lastCleared: Date?
+
+    var totalCacheSize: Int64 {
+        return diskCacheSize + memoryCacheSize
+    }
+
+    init(diskCacheSize: Int64 = 0, memoryCacheSize: Int64 = 0, lastCleared: Date? = nil) {
+        self.diskCacheSize = diskCacheSize
+        self.memoryCacheSize = memoryCacheSize
+        self.lastCleared = lastCleared
+    }
 }
