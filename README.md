@@ -3,6 +3,8 @@
 This browser can avoid being captured in screen recordings.
 Use responsibly. Bypassing system protections may have legal or ethical consequences.
 
+![Demo](./demo.gif)
+
 ## Build & Run
 
 You can build and run this app from the command line.
