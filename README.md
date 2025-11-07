@@ -13,7 +13,7 @@ You can build and run this app from the command line.
 
 ```bash
 # Clone the repository
-git clone https://github.com/ohio0987654321/uncapturable.git
+git clone https://github.com/rnlcrosoft/uncapturable.git
 cd uncapturable
 ```
 
